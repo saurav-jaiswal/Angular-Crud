@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>CRUD Application</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="stylesheet.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<body ng-controller="MyCtrl">
+<div class="container">
+    <div class="row" align="right">
+        <div class="col-lg-12" style="margin-top: 20px">
+            <button id="add_btn" type="button" class="btn btn-primary" data-toggle="modal"
+                    data-target="#myModal"><i
+                    class="fa fa-plus" aria-hidden="true"></i>Add
+            </button>
+        </div>
+    </div>
+
+    <!--add modal-->
+
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><strong>Fill all the</strong> Information</h4>
+                </div>
+
+                <div class="modal-body">
+                    <label class="col-md-4 control-label">First Name</label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input id="fname" name="fname" placeholder="Enter FirstName" class="form-control" value=""
+                               type="text" ng-model="user.first_name" style="margin: 0px"></div>
+
+                    <label class="col-md-4 control-label">Last Name </label>
+
+                    <div class="input-group"><span class="input-group-addon"><i
+                            class="glyphicon glyphicon-user"></i></span>
+                        <input id="lname" name="lname" placeholder="Enter LastName" class="form-control" value=""
+                               type="text" ng-model="user.last_name" style="margin: 0px"></div>
+
+                    <label class="col-md-4 control-label">Contact Number </label>
+
+                    <div class="input-group"><span class="input-group-addon"><i
+                            class="glyphicon glyphicon-phone-alt"></i></span>
+                        <input id="cnum" name="cnum" placeholder="Enter ContactNumber" class="form-control" value=""
+                               type="number" ng-model="user.contact_number"></div>
+                    <div align="right" style="margin-top: 10px">
+                        <button class="btn btn-indigo"  ng-disabled="!user.first_name || !user.last_name || !user.contact_number" ng-click="addData()" data-dismiss="modal" >
+                            Save
+                        </button>
+                        <button class="btn btn-indigo" value="Click Here" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--edit modal-->
+
+    <div class="modal fade" id="editModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><strong>Fill the User </strong> Informations </h4>
+                </div>
+                <div class="modal-body">
+                    <label class="col-md-4 control-label">FirstName</label>
+                    <div class="input-group"><span class="input-group-addon"><i
+                            class="glyphicon glyphicon-user"></i></span>
+                        <input id="Efname" name="Efname" placeholder="Enter FirstName" class="form-control" value=""
+                               type="text" ng-model="selected_user.first_name" required></div>
+
+                    <label class="col-md-4 control-label">LastName </label>
+
+                    <div class="input-group"><span class="input-group-addon"><i
+                            class="glyphicon glyphicon-user"></i></span>
+                        <input id="Elname" name="Elname" placeholder="Enter LastName" class="form-control" value=""
+                               type="text" ng-model="selected_user.last_name" required></div>
+
+                    <label class="col-md-4 control-label">Contact No </label>
+
+                    <div class="input-group"><span class="input-group-addon"><i
+                            class="glyphicon glyphicon-phone-alt"></i></span>
+                        <input id="Ecnum" name="Ecnum" placeholder="Enter ContactNumber" class="form-control" value=""
+                               type="number" ng-model="selected_user.contact_number" required></div>
+
+                    <button class="btn btn-indigo" ng-click="editData(selected_user)" data-dismiss="modal">Update
+                    </button>
+                    <button class="btn btn-indigo" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-------Table-------->
+
+    <div class="row" style="margin-top: 40px">
+        <div class="panel panel-primary filterable">
+            <div class="panel-heading">
+                <div>
+                    <h3 class="panel-title">Details</h3>
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                <tr class="filters">
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Contact Details</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="user in users track by $index">
+                    <td>{{$index+1}}</td>
+                    <td>{{user.first_name}}</td>
+                    <td>{{user.last_name}}</td>
+                    <td>{{user.contact_number}}</td>
+                    <td>
+                        <div>
+                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                    data-target="#editModal"
+                                    ng-click="setModalData($index)"><i
+                                    class="fa fa-edit" aria-hidden="true"></i> Edit
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" ng-click="del($index)"><i
+                                    class="fa fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script src="angular.min.js"></script>
+<script type="text/javascript">
+    app = angular.module('app', []);
+    app.controller('MyCtrl', function ($scope) {
+
+
+        $scope.user = {};
+        $scope.users = [];
+        $scope.selected_user = {};
+
+        $scope.addData = function () {
+            $scope.users.push($scope.user);
+            $scope.user = {};
+        };
+
+        $scope.del = function (id) {
+            var result = confirm('Are you sure want to delete?');
+            if (result == true)
+                $scope.users.splice(id, 1);
+        };
+        $scope.setModalData = function (index) {
+            $scope.selected_user = angular.copy($scope.users[index]);
+            $scope.selected_user['index'] = index
+        };
+
+        $scope.editData = function (selected_user) {
+            $scope.users[selected_user['index']] = selected_user;
+        };
+
+    });
+
+</script>
+</html>
